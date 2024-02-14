@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Temperature Converter</title>
+    <script type="module" src="converter.js">
+            document.addEventListener('DOMContentLoaded', function() {
+          const form = document.getElementById('tempForm');
+          form.addEventListener('submit', handleTemperatureConversion);
+      });
+
+      function handleTemperatureConversion(event) {
+          event.preventDefault();
+          const fahrenheitInput = document.getElementById('fahrenheitInput');
+          const fahrenheit = fahrenheitInput.value;
+          if (validateTemperature(fahrenheit)) {
+              const celsius = convertFahrenheitToCelsius(fahrenheit);
+              displayResult(celsius);
+          } else {
+              displayError('Invalid input. Please enter a numeric value between -250°F and 250°F.');
+          }
+      }
+
+      function validateTemperature(fahrenheit) {
+          const num = Number(fahrenheit);
+          return !isNaN(num) && num >= -250 && num <= 250;
+      }
+
+      function convertFahrenheitToCelsius(fahrenheit) {
+          return ((fahrenheit - 32) * 5 / 9).toFixed(2);
+      }
+
+      function displayResult(celsius) {
+          const resultDiv = document.getElementById('result');
+          resultDiv.textContent = `Temperature in Celsius: ${celsius}°C`;
+      }
+
+      function displayError(message) {
+          const resultDiv = document.getElementById('result');
+          resultDiv.textContent = message;
+      }
+    </script>
+  </head>
+  <body>
+    <form id="tempForm">
+      <label for="fahrenheitInput">Enter Temperature in Fahrenheit:</label>
+      <input
+        type="number"
+        id="fahrenheitInput"
+        name="fahrenheit"
+        min="-250"
+        max="250"
+        required
+      />
+      <button type="submit">Convert to Celsius</button>
+    </form>
+    <div id="result"></div>
+  </body>
+</html>
